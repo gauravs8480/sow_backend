@@ -10,17 +10,15 @@ import termsRoutes from './routes/terms.js';
 
 const app = Fastify({ logger: true });
 
-// ✅ Allow Any Origin (All Domains)
+// ✅ Enable CORS for your frontend URL
 await app.register(cors, {
-  origin: '*', // Allow any domain
+  origin: '*', // Allow any domain (use specific URL in production)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allow any headers you need
-  credentials: true, // Optional: Allow cookies
 });
 
-// ✅ Register your routes with correct base URL
-await app.register(productsRoutes, { prefix: '/api' });
-await app.register(termsRoutes, { prefix: '/api' });
+// ✅ Register your routes with the correct prefix
+await app.register(productsRoutes, { prefix: '/api/products' });
+await app.register(termsRoutes, { prefix: '/api/terms' });
 
 // ✅ Start the server
 try {

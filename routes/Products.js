@@ -1,8 +1,10 @@
+// routes/Products.js
 import Product from '../models/Product.js';
 
-export default async function (fastify, opts) {
-  // Fetch all products
-  fastify.get('/api/products', async (req, reply) => {
+// ✅ Fastify Plugin Style Route Declaration
+export default async function productsRoutes(fastify, opts) {
+  // ✅ Fetch all products
+  fastify.get('/', async (req, reply) => {
     try {
       const products = await Product.findAll({ order: [['id', 'ASC']] });
       reply.send(products);
@@ -12,8 +14,8 @@ export default async function (fastify, opts) {
     }
   });
 
-  // Add a new product
-  fastify.post('/api/products', async (req, reply) => {
+  // ✅ Add a new product
+  fastify.post('/', async (req, reply) => {
     try {
       const newProduct = await Product.create(req.body);
       reply.status(201).send(newProduct);
@@ -23,8 +25,8 @@ export default async function (fastify, opts) {
     }
   });
 
-  // Update an existing product
-  fastify.put('/api/products/:id', async (req, reply) => {
+  // ✅ Update an existing product
+  fastify.put('/:id', async (req, reply) => {
     try {
       const product = await Product.findByPk(req.params.id);
       if (!product) {
@@ -39,8 +41,8 @@ export default async function (fastify, opts) {
     }
   });
 
-  // Delete a product
-  fastify.delete('/api/products/:id', async (req, reply) => {
+  // ✅ Delete a product
+  fastify.delete('/:id', async (req, reply) => {
     try {
       const product = await Product.findByPk(req.params.id);
       if (!product) {
