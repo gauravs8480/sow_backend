@@ -1,6 +1,7 @@
 // server.js
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import formBody from '@fastify/formbody'; // ✅ Add this
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -15,6 +16,9 @@ await app.register(cors, {
   origin: '*', // Allow any domain (use specific URL in production)
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 });
+
+// ✅ Enable Body Parser for JSON (IMPORTANT)
+await app.register(formBody);
 
 // ✅ Register your routes with the correct prefix
 await app.register(productsRoutes, { prefix: '/api/products' });
