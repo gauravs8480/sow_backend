@@ -1,4 +1,4 @@
-// backend/server.js
+// server.js
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import dotenv from 'dotenv';
@@ -10,15 +10,17 @@ import termsRoutes from './routes/terms.js';
 
 const app = Fastify({ logger: true });
 
-// ✅ Enable CORS for your frontend URL
+// ✅ Allow Any Origin (All Domains)
 await app.register(cors, {
-  origin: ['http://localhost:5173'], // ✅ Allow only your React frontend
+  origin: '*', // Allow any domain
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow any headers you need
+  credentials: true, // Optional: Allow cookies
 });
 
-// ✅ Register your routes
-await app.register(productsRoutes);
-await app.register(termsRoutes);
+// ✅ Register your routes with correct base URL
+await app.register(productsRoutes, { prefix: '/api' });
+await app.register(termsRoutes, { prefix: '/api' });
 
 // ✅ Start the server
 try {
